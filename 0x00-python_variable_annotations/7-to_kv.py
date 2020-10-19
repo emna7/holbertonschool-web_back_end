@@ -1,6 +1,6 @@
-#!/us/bin/env python3
+#!/usr/bin/env python3
 """
-complex types
+Complex types - string and int/float to tuple
 """
 
 
@@ -8,9 +8,8 @@ from typing import Union, Tuple
 
 
 def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
+    """returns a tuple
     """
-    return tuple
-    """
-    element: float = v * v
-    tuple = (k, element)
-    return tuple
+    value: float = v * v
+    my_tuple = (k, value)
+    return my_tuple
