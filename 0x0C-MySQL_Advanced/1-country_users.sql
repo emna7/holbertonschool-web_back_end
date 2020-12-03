@@ -1,0 +1,7 @@
+-- create new user
+CREATE TABLE IF NOT EXISTS users (
+    ID NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    emai VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    COUNTRY ENUM('US', 'CO', 'TN') NOT NULL
+    );
