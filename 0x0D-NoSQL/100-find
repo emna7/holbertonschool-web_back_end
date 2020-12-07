@@ -1,0 +1,4 @@
+// Regex filter
+db.getCollection("school").find({
+    name: {$regex: "Holberton*"}
+})

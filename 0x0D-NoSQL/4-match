@@ -1,0 +1,4 @@
+// list all matches name="Holberton school"
+db.getCollection("school").find({
+    name: "Holberton school"
+})
