@@ -1,17 +1,18 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const { spy } = require('sinon');
+const Utils = require('./utils');
 
 const sendPaymentRequestToApi = require('./5-payment');
 
 describe('sendPaymentRequestToApi', () => {
     let spy;
 
-    beforeEach(() => { 
+    beforeEach(() => {
         spy = sinon.spy(console, 'log');
     });
 
-    afterEach(() => { 
+    afterEach(() => {
         spy.restore();
     })
 

@@ -1,32 +1,27 @@
-const calculateNumber = require("./1-calcul.js");
-const mocha = require('mocha');
-const assert = require("assert");
+const calculateNumber = require("./1-calcul");
+const assert = require('assert');
 
-describe('calculateNumber', () => {
-    it('returns rounded sum with SUM', () => {
-    assert.strictEqual(calculateNumber('SUM', 1, 3), 4);
-    assert.strictEqual(calculateNumber('SUM', 1.6, 3), 5);
-    assert.strictEqual(calculateNumber('SUM', 1.2, 3.8), 5);
-    assert.strictEqual(calculateNumber('SUM', -1, -3), -4);
-    assert.strictEqual(calculateNumber('SUM',-1.4, -3.6), -5);
-    });
-    it('returns rounded sum with SUBSTRACT', () => {
-        assert.strictEqual(calculateNumber('SUBSTRACT', 1, 3), -2);
-        assert.strictEqual(calculateNumber('SUBSTRACT', 1.6, 3), -2);
-        assert.strictEqual(calculateNumber('SUBSTRACT', 1.2, 3.8), -3);
-        assert.strictEqual(calculateNumber('SUBSTRACT', -1, -3), 2):
-        assert.strictEqual(calculateNumber('SUBSTRACT', -1.4, -3.6), 3);
-    });
-    it('returns rounded sum with DIVIDE', () => {
-        assert.strictEqual(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
-    });
-    it('returns error string when DIVIDE by 0', () => {
-        assert.strictEqual(calculateNumber('DIVIDE', 1.4, 0), 'Error');
-    });
-    it('should throw error if NaN passed', function () {
-        assert.throws(() => calculateNumber('SUM', NaN, 3), '[Function: TypeError]');
-    });
-    it('should throw error if invalid type', function () {
-        assert.throws(() => calculateNumber('blah', 2, 3), '[Function: TypeError]');
-    });
+describe("calculateNumber", () => {
+	assert.equal(4, calculateNumber('SUM', 1, 3))
+	assert.equal(5, calculateNumber('SUM', 1.8, 3));
+	assert.equal(5, calculateNumber('SUM', 1.8, 3.2));
+	assert.equal(4, calculateNumber('SUM', 1, 3.2));
+	assert.equal(5, calculateNumber('SUM', 1, 3.7));
+	assert.equal(5, calculateNumber('SUM', 1.2, 3.7));
+	assert.equal(6, calculateNumber('SUM', 1.5, 3.7));
+
+	assert.equal(2, calculateNumber('SUBTRACT', 3, 1));
+	assert.equal(2, calculateNumber('SUBTRACT', 3.1, 1.2));
+	assert.equal(1, calculateNumber('SUBTRACT', 3, 1.8));
+	assert.equal(1, calculateNumber('SUBTRACT', 3.2, 1.8));
+	assert.equal(3, calculateNumber('SUBTRACT', 3.9, 0.9));
+	assert.equal(6, calculateNumber('SUBTRACT', 5.8, 0));
+	assert.equal(-3, calculateNumber('SUBTRACT', 1.2, 3.7));
+
+	assert.equal(3, calculateNumber('DIVIDE', 9, 3.2));
+	assert.equal(3, calculateNumber('DIVIDE', 12, 3.8));
+	assert.equal(3, calculateNumber('DIVIDE', 11.9, 3.7));
+	assert.equal(4, calculateNumber('DIVIDE', 16.1, 3.6));
+	assert.equal(4, calculateNumber('DIVIDE', 8.25, 2));
+	assert.equal('Error', calculateNumber('DIVIDE', 9, 0.2));
 });
