@@ -1,42 +1,36 @@
 #!/usr/bin/env python3
-"""Basic babel setup
 """
-
-
+Flask application
+"""
 from flask import Flask, render_template, request
 from flask_babel import Babel, gettext
-from typing import Optional
-
-
-class Config:
-    """configuration
-    """
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
 app = Flask(__name__)
-app.config.from_object(Config)
 babel = Babel(app)
 
 
+class Config:
+    ''' flask app Config class. '''
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
+
+
 @babel.localeselector
-def get_local() -> Optional[str]:
-    """get locale time
-    """
+def get_locale():
+    """ Determine the best match with our supported languages. """
     locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
+    if locale is not None and locale in Config.LANGUAGES:
         return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    locale = request.accept_languages.best_match(Config.LANGUAGES)
+    return locale
+
+
+app.config.from_object('4-app.Config')
 
 
 @app.route('/')
-def index():
-    """call index template
-    """
+def default():
+    """ Returns a 4-index.html template """
     return render_template('4-index.html')
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
