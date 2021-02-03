@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
-"""
-execute multiple coroutines at the same time
-"""
+'''
+Contains a coroutine.
+'''
 import asyncio
+import random
 from typing import List
 
 
 wait_random = __import__('0-basic_async_syntax').wait_random
 
-async def wait_n(max_delay: int, n: int) -> List[float]:
-   """return the delay values
-    Parameters
-    ----------
-    max_delay: int
-        waiting time
-    n: int
-        number of times that wait_random spawn
-    Returns
-    -------
-    List[float]
-    """
-    my_list = []
-    for i in range(n):
-       my_list.append(await wait_random(max_delay))
 
-    return my_list
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    '''
+    Returns the list of all the delays.
+    '''
+    r = await asyncio.gather(*(wait_random(max_delay) for i in range(n)))
+    return sorted(r)
