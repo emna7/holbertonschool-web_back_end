@@ -1,76 +1,78 @@
 #!/usr/bin/env python3
-"""
-tests module
-"""
-
-
-from unittest import TestCase
-from unittest.mock import Mock, patch
+""" Test SUITE Unittest module Task """
+import requests
+from unittest import mock
+from unittest.mock import patch, PropertyMock
+import unittest
 from parameterized import parameterized
+
 from utils import access_nested_map, get_json, memoize
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    """testing utilities for client
-    """
-    @parameterized.axpand([
+    """ Class for testing Nested Map function """
+    @parameterized.expand([
         ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a",), {'b': 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, nested_map, path, expected_output):
-        """test if method returns correct output
-        """
-        returned_output = access_nested_map(map, path)
-        self.assertEqual(returned_output, expected_output)
+    def test_access_nested_map(self, map, path, expected_output):
+        """ Test method return output """
+        real_output = access_nested_map(map, path)
+        self.assertEqual(real_output, expected_output)
 
     @parameterized.expand([
-        ({}, ("a",), "a"),
-        ({"a": 1}, ("a", "b"), "b")
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
     ])
-    def test_access_nested_map_exception(self, nested_map, path, exception):
-        """raise a KeyError
-        """
-        with self.assertRaise(KeyError) as raises:
-            access_nested_map(nested_map, path)
-            self.assertEqual(raises.exception.message, exception)
+    def test_access_nested_map_exception(self, nested_map, path):
+        '''
+            Tests access_nested_map for raised expections.
+        '''
+        self.assertRaises(KeyError, access_nested_map, nested_map, path)
 
 
 class TestGetJson(unittest.TestCase):
-    """return of the json from URL
-    """
+    '''
+    get_json tests.
+    '''
+
     @parameterized.expand([
-        ("http://example.com", {"payload": True}),
-        ("http://holberton.io", {"payload": False})
+        ('http://example.com', {"payload": True}),
+        ('http://holberton.io', {"payload": False})
     ])
-    def test_get_json(self, test_url, test_payload):
-        """test the expected json return
-        """
-        mock_get = Mock()
-        mock_get.json.return_value = test_payload
-        with patch('requests.get', return_value=mock_get):
-            response = get_json(test_url)
-            mock_get.json.assert_called_once()
-            self.assertEqual(response, test_payload)
+    def test_get_json(self, url, expected_result):
+        '''
+            Tests if get_json function returns the expected result.
+        '''
+        with mock.patch('utils.requests') as mock_request:
+            mock_request.get.return_value = expected_result
+            x = mock_request.get(url)
+            self.assertEqual(expected_result, x)
 
 
 class TestMemoize(unittest.TestCase):
-    """test memoization by storing the result
+    """
+    utils.memoize tests.
     """
     def test_memoize(self):
-        """test memoize
-        """
+        '''
+            Test memoize.
+        '''
         class TestClass:
-
+            ''' TestClass for memoize. '''
             def a_method(self):
+                ''' Returns 42. '''
                 return 42
 
             @memoize
             def a_property(self):
+                ''' Returns the class a_method . '''
                 return self.a_method()
 
-        with patch.object(TestClass, 'a_method', return_value=42) as mock:
-            memo = TestClass()
-            memo.a_property
-            memo.a_property
-            mock.assert_called_once()
+        with patch.object(TestClass, 'a_method') as am:
+            am.return_value = 42
+            tc = TestClass()
+            self.assertEqual(tc.a_property, am.return_value)
+            self.assertEqual(tc.a_property, am.return_value)
+            am.assert_called_once()
