@@ -322,3 +322,6 @@ print(zoom_array.__annotations__)
 bob@dylan:~$ ./102-main.py 
 {'lst': typing.Tuple, 'factor': <class 'int'>, 'return': typing.List}
 ```
+
+## Challenges
+At first it was not easy to get used to mypy cheat sheet but after practicing everything looked just fine
