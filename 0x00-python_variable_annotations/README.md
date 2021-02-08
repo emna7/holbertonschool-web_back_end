@@ -1,5 +1,8 @@
 # Python Variables Annotations
 
+
+![alt text](https://i.redd.it/y9y25tefi5401.png)
+
 ### Why?
 
 At the end of this project I am expected to be able to explain, without the help
