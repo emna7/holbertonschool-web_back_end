@@ -1,6 +1,5 @@
 # Async functions
 
-![Alt text](../4aeaa9c3cb1f316c05c4.png)
 
 When you have an asynchronous function (coroutine) in Python, you declare it 
 with async def, which changes how its call behaves. In particular,
